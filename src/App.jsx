@@ -123,6 +123,7 @@ const CreateNew = (props) => {
 					<input
 						name='content'
 						value={content.value}
+						type={content.type}
 						onChange={content.onChange}
 					/>
 				</div>
@@ -131,12 +132,18 @@ const CreateNew = (props) => {
 					<input
 						name='author'
 						value={author.value}
+						type={author.type}
 						onChange={author.onChange}
 					/>
 				</div>
 				<div>
 					url for more info
-					<input name='info' value={info.value} onChange={info.onChange} />
+					<input
+						name='info'
+						value={info.value}
+						type={info.type}
+						onChange={info.onChange}
+					/>
 				</div>
 				<button>create</button>
 				<button type='button' onClick={handleReset}>
