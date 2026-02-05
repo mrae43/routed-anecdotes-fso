@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { Routes, Route, Link, useMatch } from 'react-router-dom';
+import { Routes, Route, Link, useMatch, useNavigate } from 'react-router-dom';
+import Notification from './components/Notification';
+import { useContext } from 'react';
+import NotificationContext from './NotificationContext';
 
 const Menu = () => {
 	const padding = {
@@ -84,9 +87,12 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
+	const navigate = useNavigate();
 	const [content, setContent] = useState('');
 	const [author, setAuthor] = useState('');
 	const [info, setInfo] = useState('');
+
+	const { setCreationNotification } = useContext(NotificationContext);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -96,6 +102,8 @@ const CreateNew = (props) => {
 			info,
 			votes: 0,
 		});
+		navigate('/');
+		setCreationNotification(content, 5);
 	};
 
 	return (
@@ -177,6 +185,7 @@ const App = () => {
 		<div>
 			<h1>Software anecdotes</h1>
 			<Menu />
+			<Notification />
 			<Routes>
 				<Route
 					path='/anecdotes/:id'
