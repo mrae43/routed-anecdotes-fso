@@ -89,9 +89,6 @@ const Footer = () => (
 
 const CreateNew = (props) => {
 	const navigate = useNavigate();
-	// const [content, setContent] = useState('');
-	// const [author, setAuthor] = useState('');
-	// const [info, setInfo] = useState('');
 	const content = useField('text');
 	const author = useField('text');
 	const info = useField('text');
@@ -103,11 +100,18 @@ const CreateNew = (props) => {
 		props.addNew({
 			content: content.value,
 			author: author.value,
-			info: author.value,
+			info: info.value,
 			votes: 0,
 		});
 		navigate('/');
 		setCreationNotification(content, 5);
+	};
+
+	const handleReset = () => {
+		content.onReset();
+		info.onReset();
+		author.onReset();
+		return;
 	};
 
 	return (
@@ -135,6 +139,9 @@ const CreateNew = (props) => {
 					<input name='info' value={info.value} onChange={info.onChange} />
 				</div>
 				<button>create</button>
+				<button type='button' onClick={handleReset}>
+					reset
+				</button>
 			</form>
 		</div>
 	);
