@@ -3,6 +3,7 @@ import { Routes, Route, Link, useMatch, useNavigate } from 'react-router-dom';
 import Notification from './components/Notification';
 import { useContext } from 'react';
 import NotificationContext from './NotificationContext';
+import { useField } from './hooks';
 
 const Menu = () => {
 	const padding = {
@@ -88,9 +89,12 @@ const Footer = () => (
 
 const CreateNew = (props) => {
 	const navigate = useNavigate();
-	const [content, setContent] = useState('');
-	const [author, setAuthor] = useState('');
-	const [info, setInfo] = useState('');
+	// const [content, setContent] = useState('');
+	// const [author, setAuthor] = useState('');
+	// const [info, setInfo] = useState('');
+	const content = useField('text');
+	const author = useField('text');
+	const info = useField('text');
 
 	const { setCreationNotification } = useContext(NotificationContext);
 
@@ -114,25 +118,21 @@ const CreateNew = (props) => {
 					content
 					<input
 						name='content'
-						value={content}
-						onChange={(e) => setContent(e.target.value)}
+						value={content.value}
+						onChange={content.onChange}
 					/>
 				</div>
 				<div>
 					author
 					<input
 						name='author'
-						value={author}
-						onChange={(e) => setAuthor(e.target.value)}
+						value={author.value}
+						onChange={author.onChange}
 					/>
 				</div>
 				<div>
 					url for more info
-					<input
-						name='info'
-						value={info}
-						onChange={(e) => setInfo(e.target.value)}
-					/>
+					<input name='info' value={info.value} onChange={info.onChange} />
 				</div>
 				<button>create</button>
 			</form>
