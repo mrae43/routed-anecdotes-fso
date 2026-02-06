@@ -3,6 +3,7 @@ import { Routes, Route, Link, useMatch, useNavigate } from 'react-router-dom';
 import Notification from './components/Notification';
 import { useContext } from 'react';
 import NotificationContext from './NotificationContext';
+import { useField } from './hooks';
 
 const Menu = () => {
 	const padding = {
@@ -88,22 +89,29 @@ const Footer = () => (
 
 const CreateNew = (props) => {
 	const navigate = useNavigate();
-	const [content, setContent] = useState('');
-	const [author, setAuthor] = useState('');
-	const [info, setInfo] = useState('');
+	const content = useField('text');
+	const author = useField('text');
+	const info = useField('text');
 
 	const { setCreationNotification } = useContext(NotificationContext);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		props.addNew({
-			content,
-			author,
-			info,
+			content: content.value,
+			author: author.value,
+			info: info.value,
 			votes: 0,
 		});
 		navigate('/');
 		setCreationNotification(content, 5);
+	};
+
+	const handleReset = () => {
+		content.onReset();
+		info.onReset();
+		author.onReset();
+		return;
 	};
 
 	return (
@@ -114,27 +122,33 @@ const CreateNew = (props) => {
 					content
 					<input
 						name='content'
-						value={content}
-						onChange={(e) => setContent(e.target.value)}
+						value={content.value}
+						type={content.type}
+						onChange={content.onChange}
 					/>
 				</div>
 				<div>
 					author
 					<input
 						name='author'
-						value={author}
-						onChange={(e) => setAuthor(e.target.value)}
+						value={author.value}
+						type={author.type}
+						onChange={author.onChange}
 					/>
 				</div>
 				<div>
 					url for more info
 					<input
 						name='info'
-						value={info}
-						onChange={(e) => setInfo(e.target.value)}
+						value={info.value}
+						type={info.type}
+						onChange={info.onChange}
 					/>
 				</div>
 				<button>create</button>
+				<button type='button' onClick={handleReset}>
+					reset
+				</button>
 			</form>
 		</div>
 	);
